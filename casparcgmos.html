@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <!-- HTML5 plugin til Octopus lavet af HEFR & THKY -->
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="plugin.css">
+    <script src="jquery-3.5.1.js"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MOS HTML5 PlugIn</title>
+
+
+
+
+
+
+</head>
+
+
+
+<body>
+
+    <div id="logo1" class="logo"></div>
+
+    <nav class="nav">
+        <a href="#page1" >Bundt</a>
+        <a href="#page2">Ident</a>
+        <a href="#page3">Info</a>
+
+
+
+    </nav>
+
+    <!-- <button onclick="send3()" class="button">Luk Plugin</button> -->
+    <div id="page1" class="page">
+
+        <div id="heads">Bundt template</div>
+        <div id="besked"></div>
+        <form id="form" onsubmit="return false;">
+            NAVN:
+
+            <input type="text" id="userInput1" placeholder="navn" tabindex="1"/><br> TITEL:
+
+            <input type="text" id="userInput2" placeholder="titel" tabindex="2"/><br> IN: <input type="text2" id="userIn" value="00:00:00:00" tabindex="3"/> DUR:
+
+            <input type="time" id="userDur" value="00:00:00:00" tabindex="4"/><br>TOPT
+            
+            <input type="checkbox" id="tempSelect" name="tempSelect" value="TOPT">
+            <button onclick="sendBundt()" class="button">Gem i Rundown</button>
+
+        </form>
+
+
+
+        <div class="besked2"></div>
+
+    </div>
+    </div>
+
+    <div id="page2" class="page">
+
+        <div id="besked"></div>
+
+        <div id="heads1">Ident template</div>
+
+        <form id="formIdent" onchange="gemTextVal()" onsubmit="return false;">
+
+
+
+            IDENT:<input type="text" id="userInput3" placeholder="IDENT" tabindex="1" /><br> IN: <input type="text2" id="userIn1" value="00:00:00:00" class="time" tabindex="2"/> DUR:
+
+            <input type="text2" id="userDur1" value="00:00:00:00" tabindex="3"/><br>
+            
+            <button onclick="sendIdent()" class="button">Gem i Rundown</button>
+        </form>
+
+
+
+        <div class="besked2"></div>
+
+    </div>
+
+    </div>
+
+
+
+    <div id="page3" class="page">Info
+        <div id="besked3">
+
+            <div id="top">CASPARCG MOS PLUGIN </div>
+
+            <div id="besked"></div>
+            <div id="besked2"></div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+        window.location = '#page1'
+
+        let input1;
+        let input2;
+        let input3;
+
+        let inputIn;
+        let inputDur;
+        let inputIn1;
+        let inputDur1;
+        let temp;
+        let val1;
+        let val2;
+        let val3;
+        let val4;
+        let val5;
+        let val6;
+        let val7;
+
+        function gemTextVal() {
+
+            input1 = document.getElementById("userInput1").value;
+            input2 = document.getElementById("userInput2").value;
+            input3 = document.getElementById("userInput3").value;
+            inputIn = document.getElementById("userIn").value;
+            inputDur = document.getElementById("userDur").value;
+            inputIn1 = document.getElementById("userIn1").value;
+            inputDur1 = document.getElementById("userDur1").value;
+            tempSelect = document.getElementById("tempSelect").value;
+            if(document.getElementById("tempSelect").checked) {
+           temp = "TOPT"
+            } else {
+            temp = "BUNDT"
+            }
+}
+          
+           
+        
+
+
+
+        // Register the Event Handler – Cross Browser
+
+        function getNewsroomOrigin() {
+
+            // document.getElementById("top").innerHTML = "Plugin godkendt"
+            var qs = document.location.search.split("+").join(" ");
+            var params = {};
+            var regex = /[?&]?([^=]+)=([^&]*)/g;
+            while (tokens = regex.exec(qs)) {
+                params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+            }
+
+            //document.getElementById("top").innerHTML = params.origin;
+
+            return params['origin'];
+        }
+        let tjek = false;
+        var state = 0;
+        var message;
+
+        function mosMsgFromHost(event) {
+
+            message = event.data;
+            let xml = event.data;
+
+            //document.getElementById('besked3').innerHTML = message;
+
+            let parser;
+            let xmlDoc;
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(xml, "text/xml");
+
+            if (state == 0 && xmlDoc.getElementsByTagName("runContext")[0].childNodes[0].nodeValue == "CREATE") {
+
+                //document.getElementById('besked').innerHTML = message;
+                window.location = '#page1'
+            }
+
+            if (state == 0 && xmlDoc.getElementsByTagName("runContext")[0].childNodes[0].nodeValue == "EDIT" && xmlDoc.getElementsByTagName("templateID")[0].childNodes[0].nodeValue == "BUNDT") {
+
+                // document.getElementById('besked').innerHTML = message;
+                window.location = '#page1'
+
+                val1 = xmlDoc.getElementsByTagName("value")[0].childNodes[0].nodeValue;
+                val2 = xmlDoc.getElementsByTagName("value")[1].childNodes[0].nodeValue;
+                val4 = xmlDoc.getElementsByTagName("sAVsom")[0].childNodes[0].nodeValue;
+                val5 = xmlDoc.getElementsByTagName("sAVeom")[0].childNodes[0].nodeValue;
+
+                document.getElementById("userInput1").value = val1;
+                document.getElementById("userInput2").value = val2;
+                document.getElementById("userIn").value = val4;
+                document.getElementById("userDur").value = val5;
+            }
+
+
+
+            if (state == 0 && xmlDoc.getElementsByTagName("runContext")[0].childNodes[0].nodeValue == "EDIT" && xmlDoc.getElementsByTagName("templateID")[0].childNodes[0].nodeValue == "TOPT") {
+
+                //document.getElementById('besked').innerHTML = message;
+
+                window.location = '#page1'
+                document.getElementById("tempSelect").checked = true;
+
+                val1 = xmlDoc.getElementsByTagName("value")[0].childNodes[0].nodeValue;
+                val2 = xmlDoc.getElementsByTagName("value")[1].childNodes[0].nodeValue;
+                val6 = xmlDoc.getElementsByTagName("sAVsom")[0].childNodes[0].nodeValue;
+                val7 = xmlDoc.getElementsByTagName("sAVeom")[0].childNodes[0].nodeValue;
+
+                document.getElementById("userInput1").value = val1;
+                document.getElementById("userInput2").value = val2;
+                document.getElementById("userIn").value = val6;
+                document.getElementById("userDur").value = val7;
+
+
+            }
+
+
+
+            if (state == 0 && xmlDoc.getElementsByTagName("runContext")[0].childNodes[0].nodeValue == "EDIT" && xmlDoc.getElementsByTagName("templateID")[0].childNodes[0].nodeValue == "IDENT") {
+
+                //document.getElementById('besked').innerHTML = message;
+
+                window.location = '#page2'
+
+                val1 = xmlDoc.getElementsByTagName("value")[0].childNodes[0].nodeValue;
+                val6 = xmlDoc.getElementsByTagName("sAVsom")[0].childNodes[0].nodeValue;
+                val7 = xmlDoc.getElementsByTagName("sAVeom")[0].childNodes[0].nodeValue;
+
+                document.getElementById("userInput3").value = val1;
+                document.getElementById("userIn1").value = val6;
+                document.getElementById("userDur1").value = val7;
+
+            }
+
+            if (state == 2 && xmlDoc.getElementsByTagName("status")[0].childNodes[0].nodeValue == "ACK") {
+
+                // document.getElementById('besked2').innerHTML = "Gemt i Octopus";
+
+            }
+
+
+
+            if (event.origin != getNewsroomOrigin()) {
+
+                document.getElementById('top').innerHTML = "CASPARCG MOS PLUGIN - Origin does not match"
+
+                return;
+
+            } else if (state == 0) {
+
+                var reply = '<mos><ncsReqAppInfo/></mos>';
+
+
+
+                event.source.postMessage(reply, event.origin);
+
+            }
+
+
+
+            state = 1;
+        };
+        if (window.addEventListener) {
+            window.addEventListener('message', mosMsgFromHost, false);
+        } else if (window.attachEvent) {
+            window.attachEvent('message', mosMsgFromHost, false);
+        }
+
+        getNewsroomOrigin();
+        var message2 = '<mos><ncsReqAppInfo/></mos>';
+        window.parent.postMessage(message2, getNewsroomOrigin());
+        // Handle the Message
+
+        function send() {
+            state = 2
+            gemText();
+            var create = '<mos><ncsItem><item><itemID>1</itemID><objID>001CCG</objID><objSlug>In:' + inputIn + ' ' +
+                inputDur + '</objSlug><mosID>CasparCG</mosID><mosAbstract>OVERSKRIFT - IN: ' + inputIn + ' - DUR: ' +
+                inputDur +
+                ' </mosAbstract><itemEdStart>45</itemEdStart><itemEdDur>1000</itemEdDur><mosExternalMetadata><mosScope>PLAYLIST</mosScope><mosSchema>http://NCSA4.com/mos/supported_schemas/NCSAXML2.08</mosSchema><mosPayload><templateID>OVERSKRIFT</templateID><sAVsom>' +
+                inputIn + '</sAVsom><sAVeom>' + inputDur + '</sAVeom><ObjectDetails><message><fields><field><id>0</id><value>' +
+
+                input1 + '</value></field><field><id>1</id><value>' +
+
+                input2 + '</value></field><field><id>2</id><value>' +
+
+                input3 + '</value></field><field><id>3</id><value>' +
+
+                input4 + '</value></field><field><id>4</id><value>' +
+
+                input5 + '</value></field><field><id>5</id><value>' +
+
+                input6 +
+
+                '</value></field></fields></message></ObjectDetails></mosPayload></mosExternalMetadata></item></ncsItem></mos>'
+
+
+
+            window.parent.postMessage(create, getNewsroomOrigin());
+
+            //document.getElementById('besked2').innerHTML = event.data;
+
+
+
+
+
+        };
+
+
+
+        function sendBundt() {
+
+            state = 2
+
+            gemTextVal();
+
+            var create2 = '<mos><ncsItem><item><itemID>1</itemID><objID>002CCG</objID><objSlug>' + temp + ' In:' + inputIn +
+
+                '</objSlug><mosID>CasparCG</mosID><mosAbstract>' + temp + ' - IN: ' + inputIn + ' - DUR: ' +
+
+                inputDur +
+
+                ' </mosAbstract><mosExternalMetadata><mosScope>PLAYLIST</mosScope><mosSchema>http://NCSA4.com/mos/supported_schemas/NCSAXML2.08</mosSchema><mosPayload><templateID>' + temp + '</templateID><sAVsom>' +
+
+                inputIn + '</sAVsom><sAVeom>' + inputDur +
+
+                '</sAVeom><ObjectDetails><message><fields><field><id>0</id><value>' +
+
+                input1 + '</value></field><field><id>1</id><value>' +
+
+                input2 + '</value></field></fields></message></ObjectDetails></mosPayload></mosExternalMetadata></item></ncsItem></mos>'
+
+
+
+            window.parent.postMessage(create2, getNewsroomOrigin());
+
+            //document.getElementById('besked2').innerHTML = event.data;
+
+            state = 2
+
+
+
+        };
+
+
+
+
+
+        function sendIdent() {
+
+            state = 2
+
+            gemTextVal();
+
+            var create4 = '<mos><ncsItem><item><itemID>1</itemID><objID>002CCG</objID><objSlug>IDENT In:' + inputIn1 + '</objSlug><mosID>CasparCG</mosID><mosAbstract>IDENT - IN: ' + inputIn1 + ' - DUR: ' +
+
+                inputDur1 +
+
+                ' </mosAbstract><mosExternalMetadata><mosScope>PLAYLIST</mosScope><mosSchema>http://NCSA4.com/mos/supported_schemas/NCSAXML2.08</mosSchema><mosPayload><templateID>IDENT</templateID><sAVsom>' +
+
+                inputIn1 + '</sAVsom><sAVeom>' + inputDur1 +
+
+                '</sAVeom><ObjectDetails><message><fields><field><id>0</id><value>' +
+
+                input3 + '</value></field></fields></message></ObjectDetails></mosPayload></mosExternalMetadata></item></ncsItem></mos>'
+
+
+
+            window.parent.postMessage(create4, getNewsroomOrigin());
+
+            //document.getElementById('besked2').innerHTML = event.data;
+
+            state = 2
+
+
+
+        };
+
+
+
+
+        function send2() {
+
+            state = 0;
+
+            let message4 = '<mos><ncsReqAppInfo/></mos>';
+
+
+
+            window.parent.postMessage(message4, getNewsroomOrigin());
+
+            //document.getElementById('besked2').innerHTML = event.data;
+
+
+
+        };
+
+
+
+        function send3() {
+
+            let message4 = '<mos><ncsReqAppClose/></mos>';
+
+
+
+            window.parent.postMessage(message4, getNewsroomOrigin());
+
+            //document.getElementById('besked2').innerHTML = event.data;
+
+
+
+        };
+
+
+        jQuery.extend(jQuery.expr[':'], {
+    focusable: function (el, index, selector) {
+        return $(el).is('a, button, :input, [tabindex]');
+    }
+});
+
+$(document).on('keypress', 'input,select', function (e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        // Get all focusable elements on the page
+        var $canfocus = $(':focusable');
+        var index = $canfocus.index(document.activeElement) + 1;
+        if (index >= $canfocus.length) index = 0;
+        $canfocus.eq(index).focus();
+    }
+});
+/*
+var input00 = document.getElementById('userIn');
+input00.addEventListener('keypress', function(event){
+    var s = this.selectionStart;
+    this.value = this.value.substr(0, s) + this.value.substr(s + 1);
+    this.selectionEnd = s;
+}, false);
+
+var input01 = document.getElementById('userDur');
+input01.addEventListener('keypress', function(event){
+    var s = this.selectionStart;
+    this.value = this.value.substr(0, s) + this.value.substr(s + 1);
+    this.selectionEnd = s;
+}, false);
+
+var input03 = document.getElementById('userIn1');
+input03.addEventListener('keypress', function(event){
+    var s = this.selectionStart;
+    this.value = this.value.substr(0, s) + this.value.substr(s + 1);
+    this.selectionEnd = s;
+}, false);
+
+var input04 = document.getElementById('userDur1');
+input04.addEventListener('keypress', function(event){
+    var s = this.selectionStart;
+    this.value = this.value.substr(0, s) + this.value.substr(s + 1);
+    this.selectionEnd = s;
+}, false);
+
+*/
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+   
+
+</body>
+
+
+
+</html>

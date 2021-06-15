@@ -1,0 +1,118 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("SourceCodePro-Regular.ttf");
+}
+
+body {
+    font-family: "Open Sans";
+    background-color: #424242;
+    color: white;
+}
+
+input[type=text] {
+    font-family: "Open Sans";
+    border: none;
+    border-bottom: 2px solid grey;
+    background-color: #616161;
+    color: white;
+}
+
+input[type=button],
+input[type=submit],
+input[type=reset] {
+    background-color: #616161;
+    ;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-family: "Open Sans";
+    font-size: 16px;
+}
+
+input[type=text] {
+    background-color: #616161;
+    ;
+    width: 500px;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-family: "Open Sans";
+    font-size: 16px;
+}
+
+.button {
+    background-color: #616161;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-size: 16px;
+    font-family: "Open Sans";
+}
+
+input[type=text2] {
+    background-color: #052c05;
+    ;
+    border: none;
+    color: rgb(73, 212, 38);
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-family: "Open Sans";
+    font-size: 16px;
+}
+
+.logo {
+    background-image: url("logo.png");
+    width: 600px;
+    height: 100px;
+}
+
+.page,
+ :target~.default {
+    display: none;
+}
+
+.default,
+ :target {
+    display: block;
+}
+
+.nav {
+    list-style: none;
+    background-color: #616161;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-size: 16px;
+    font-family: "Open Sans";
+}
+
+.nav a {
+    list-style: none;
+    background-color: #616161;
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 5px 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-size: 16px;
+    font-family: "Open Sans";
+}
+
+.nav a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgb(255, 255, 255)
+}
+
+.nav .current {
+    background-color: rgb(236, 141, 15);
+    color: rgb(255, 255, 255)
+}
